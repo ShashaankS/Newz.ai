@@ -9,7 +9,7 @@ const API_URL = 'https://newsapi.org/v2/everything';
 
 function App() {
   const [articles, setArticles] = useState([]);
-  const [category, setCategory] = useState('India');
+  const [category, setCategory] = useState('Everything');
   const [searchQuery, setSearchQuery] = useState('');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState(null);
@@ -45,6 +45,25 @@ function App() {
     }, 3000);
   }, []);
 
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+
+    const fetchData = async () => {
+      try {
+        const response = await fetch('http://127.0.0.1:5000/api/data');
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        setMessage(data.message);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div className="App">
       <Navbar
@@ -53,7 +72,8 @@ function App() {
         setSearchQuery={setSearchQuery}
         handleSearch={handleSearch}
       />
-      {loading ? <Loader /> : null}
+      <h1>{message}</h1>
+      {/* {loading ? <Loader /> : null} */}
       <NewsList articles={articles} />
     </div>
   );

@@ -7,9 +7,9 @@ function Navbar({ setCategory, searchQuery, setSearchQuery, handleSearch }) {
   return (
     <nav className="bg-gray-800 text-white">
       <div className="container mx-auto flex items-center justify-between p-4">
-        <a href="/" className="flex items-center">
+        {/* <a href="/" className="flex items-center">
           <img src="/images/logo.png" alt="logo" className="h-8" />
-        </a>
+        </a> */}
         <div className="flex-grow">
           <ul className="flex space-x-4 gap-4">
             {categories.map(category => (
