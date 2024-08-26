@@ -1,19 +1,26 @@
 // src/components/NewsCard.js
-import React from 'react';
+import React, { useState } from 'react';
+import Popup from './Popup';
 
 function NewsCard({ article }) {
   const { urlToImage, title, description, source, publishedAt, url } = article;
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [summary, setSummary] = useState("");
 
   const formattedDate = new Date(publishedAt).toLocaleString('en-US', {
     timeZone: 'Asia/Jakarta',
   });
 
-  const summarize = (article)=>{
-    console.log("fetch");
-  }
-  // Handling missing image and description
   const handleImageError = (e) => {
-    e.target.src = 'src/assets/404.jpg'; // Provide a placeholder image
+    e.target.src = 'src/assets/404.jpg';
+  };
+
+  const handleSummarizeClick = async () => {
+    setIsPopupOpen(true);
+  };
+
+  const handleClosePopup = () => {
+    setIsPopupOpen(false);
   };
 
   return (
@@ -50,11 +57,12 @@ function NewsCard({ article }) {
       <button
         className="align-middle select-none font-sans font-bold text-center uppercase transition-all disabled:opacity-50 disabled:shadow-none disabled:pointer-events-none text-xs py-3 px-6 rounded-lg bg-gray-900 text-white shadow-md shadow-gray-900/10 hover:shadow-lg hover:shadow-gray-900/20 focus:opacity-[0.85] focus:shadow-none active:opacity-[0.85] active:shadow-none"
         type="button"
-        onClick={summarize}
+        onClick={handleSummarizeClick}
         >
         Summarize
       </button>
     </div>
+    {isPopupOpen && <Popup article={article} summary={summary} onClose={handleClosePopup} />}
   </div> 
   );
 }
